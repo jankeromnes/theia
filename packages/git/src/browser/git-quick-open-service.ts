@@ -116,6 +116,19 @@ export class GitQuickOpenService {
         }
     }
 
+    async pushDefault(): Promise<void> {
+        const repository = this.getRepository();
+        const remote = await this.getRemotes();
+        const defaultRemote = remote[0];
+        if (repository) {
+            try {
+                await this.git.push(repository, { remote: defaultRemote });
+            } catch (error) {
+                this.gitErrorHandler.handleError(error);
+            }
+        }
+    }
+
     async push(): Promise<void> {
         const repository = this.getRepository();
         if (repository) {
@@ -130,6 +143,19 @@ export class GitQuickOpenService {
             const items = remotes.map(remote => new GitQuickOpenItem(remote, execute));
             const branchName = currentBranch ? `'${currentBranch.name}' ` : '';
             this.open(items, `Pick a remote to push the currently active branch ${branchName}to:`);
+        }
+    }
+
+    async pullDefault(): Promise<void> {
+        const repository = this.getRepository();
+        const remote = await this.getRemotes();
+        const defaultRemote = remote[0];
+        if (repository) {
+            try {
+                await this.git.pull(repository, { remote: defaultRemote });
+            } catch (error) {
+                this.gitErrorHandler.handleError(error);
+            }
         }
     }
 
