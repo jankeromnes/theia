@@ -163,6 +163,9 @@ export function createAPIFactory(
             // tslint:disable-next-line:no-any
             registerHandler(commandId: string, handler: (...args: any[]) => any): Disposable {
                 return commandRegistry.registerHandler(commandId, handler);
+            },
+            getKeyBinding(commandId: string): PromiseLike<theia.CommandKeyBinding[] | undefined> {
+                return commandRegistry.getKeyBinding(commandId);
             }
         };
 
